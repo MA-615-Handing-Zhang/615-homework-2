@@ -3,9 +3,14 @@ title: "Presentation"
 author: "Handing Zhang"
 date: "10/6/2021"
 output:
-  html_document:
-    df_print: paged
-  pdf_document: default
+  pdf_document:
+    toc: no
+  tufte::tufte_handout:
+    latex_engine: xelatex
+  bookdown::pdf_book:
+    toc: no
+    latex_engine: lualatex
+    number_sections: no
 ---
 
 ## Outward Facing part:
