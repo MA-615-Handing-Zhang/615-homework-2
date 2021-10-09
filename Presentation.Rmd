@@ -2,13 +2,46 @@
 title: "Presentation"
 author: "Handing Zhang"
 date: "10/6/2021"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
-```{r}
-read.csv("life.csv", header = T)
+## Outward Facing part:
+
+### Relationship between income, life and year
 
 
+* In this Explorative data analysis process， I choose to explore the relationships between income, life and year in general among countries.
+
+* After wrangling the two datasets: life expectancy and income per person, I aggregated them into one dataset with tidy form, and drew some plots.
+
+
+First I source the data wrangling and visualization file so I have all the datasets and visualization tools available.
+```{r include=FALSE}
+source("wrangling_code.R", echo = F)
+source("visualization_function.R", echo = F)
 
 ```
+
+
+```{r echo=FALSE}
+vis_function(tidy_data = life_vs_income_tidy, xcol = life, y = income)
+
+```
+
+
+```{r echo=FALSE}
+vis_function(tidy_data = life_vs_income_tidy, xcol = year, y = life)
+
+```
+
+
+```{r echo=FALSE}
+ vis_function(tidy_data = life_vs_income_tidy, xcol = year, y = income)
+```
+
+
+Based on the visualization, we can see that there seems to be a positive relationship between year and income, year and life, as well as life and income. It seems like as year goes by, the income and life expectancy are growing in the countries. In addition, hiher income population seem to have higher life expectancy.
+
 

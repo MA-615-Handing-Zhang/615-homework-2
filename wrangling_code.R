@@ -33,7 +33,9 @@ income_cha <- income_raw %>%
   select(starts_with("X")) %>%      # Subseting all columns with a year as its header.
   map(as.character) %>%             # map() applies a function to each element of a list and return a list
   as.tibble() %>%                   # We then turn this list into a tibble.
-  mutate(country = income$country, .before  = X1799) # finally we add back the country column which we deleted in selection()
+  mutate(country = income_raw$country, .before  = X1799) # finally we add back the country column which we deleted in selection()
+
+
 
 str(income_cha) # now we can see that every column of my new dataset is in character form.
 
