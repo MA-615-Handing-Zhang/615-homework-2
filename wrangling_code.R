@@ -1,4 +1,112 @@
 
 
+# Library the package we need for data wrangling.
 
-income <- read.csv("income_per_person_gdppercapita_ppp_inflation_adjus")
+library(tidyverse)
+library(dplyr)
+
+# read in the data.
+# Also turn the data into tibbles right after reading them.
+income_raw <- as_tibble(read.csv("https://raw.githubusercontent.com/MA-615-Handing-Zhang/615-homework-2/main/income.csv"))
+str(income_raw)          
+
+life_raw <- as_tibble(read.csv("https://raw.githubusercontent.com/MA-615-Handing-Zhang/615-homework-2/main/life.csv", header = T))
+str(life_raw)
+
+# Datasets Introduction:
+# income: Gross domestic product per person adjusted for differences in purchasing power( in international dollars)
+# life expectancy: The average number of years a new born child would live if current mortality patterns were to stay the same.
+head(income_raw)
+head(life_raw)
+
+
+# The idea is that we want to clean the data and turn them into "tidy" form.
+
+# I want to turn income value: 12.3k(characters) into 12300(numeric)
+# First I trun every column except the first column "country" into character columns so I can pivot them without causing concliction.
+# I name the output income_cha, standing for income dataset with character columns.
+income_cha <- income_raw %>% 
+  select(starts_with("X")) %>%      # Subseting all columns with a year as its header.
+  map(as.character) %>%             # map() applies a function to each element of a list and return a list
+  as.tibble() %>%                   # We then turn this list into a tibble.
+  mutate(country = income$country, .before  = X1799) # finally we add back the country column which we deleted in selection()
+
+str(income_cha) # now we can see that every column of my new dataset is in character form.
+
+
+# Now I proceed to pivoting the "wide" data into "long" dat, a tidy form where each row is an observation and each column is a variable.
+income_cha_long <- income_cha %>% 
+  pivot_longer(cols =  starts_with("X"),  # the years in our data (1st row) all start with X. These column names are actually data so we want to store them in one column named year.
+               names_to  = "year",        # We turn these data into a column, assigning column name: year to it.
+               values_to = "income",      # for each of the year of each country, the corresponding value of income is assigned to the right position in a column: income.
+               names_prefix = "X")        # This helps me get rid of "X" in front of year value.
+
+
+# Finally I turn the income back to numeric, as well as truning values like 10.2k into 10200.
+income_cha_long$income <- as.numeric(sub("k", "e3", income_cha_long$income, fixed = T))
+# I also turned the year values back into numeric.
+income_cha_long$year <- as.numeric(income_cha_long$year)
+
+
+# Finally we call this cleaned dataset incom_tidy.
+income_tidy <- income_cha_long
+
+
+
+# life dataset are all numeric from the beginning so I directly go to pivoting it to long data form and call it life_tidy.
+life_tidy <- life_raw %>% 
+  pivot_longer(cols =  starts_with("X"),  
+               names_to  = "year", 
+               values_to = "life", 
+               names_prefix = "X")
+
+
+
+life$year <- as.numeric(life$year) 
+
+
+
+
+income <- income %>% 
+  pivot_longer()
+
+
+
+## length(intersect(income[,1], life[,1] )) check if the countries match
+
+
+
+
+# Let's try to turn the columns with "k" in it (and thereby character columns) into double columns.
+# The question is how do I do this for all such charater columns? (better without a loop)
+income$X1900 <- as.numeric(sub("k", "e3", income$X1900, fixed = T))
+income$X1902 <- as.numeric(sub("k", "e3", income$X1902, fixed = T))
+
+
+income %>% 
+  select(contains("k"))
+  
+  
+  
+  
+  
+  
+
+as.numeric(sub("k", "e3", c("1.2k", 4), fixed = T))
+
+
+# map in tidyverse
+# purrr 
+
+
+
+
+c1 <- c(1,"2")
+
+
+
+
+
+
+
+
