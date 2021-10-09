@@ -1,7 +1,38 @@
 
-forest <- read.csv("forest_coverage_percent.csv")
-head(forest)
+install.packages("rlang")
+library(rlang)
+library(ggplot2)
 
-income <- read.csv("income_per_person_gdppercapita_ppp_inflation_adjusted.csv")
-head(income)
-str(income)
+
+plot1 <- ggplot(life_vs_income_tidy, aes(x = life, y = income)) +
+  geom_smooth(se = F)
+plot1
+
+
+
+
+# I make a function using ggplot to reflect the relationship between income, life expectancy and years.
+vis_function <- function(tidy_data, xcol, ycol){
+  ggplot(data = tidy_data, aes(x = {{xcol}}, y = {{ycol}})) +
+  geom_smooth(se = F)
+}
+
+# We try the function to graph a curve with x being life and y being income.
+vis_function(tidy_data = life_vs_income_tidy, xcol = life, y = income)
+vis_function(tidy_data = life_vs_income_tidy, xcol = year, y = life)
+vis_function(tidy_data = life_vs_income_tidy, xcol = year, y = income)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
