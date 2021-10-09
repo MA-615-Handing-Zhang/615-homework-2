@@ -67,17 +67,57 @@
 \begin{document}
 \maketitle
 
-Outward Facing part:
+\hypertarget{outward-facing-part}{%
+\subsection{Outward Facing part:}\label{outward-facing-part}}
 
-Relationship between income, life and year
+\hypertarget{relationship-between-income-life-and-year}{%
+\subsubsection{Relationship between income, life and
+year}\label{relationship-between-income-life-and-year}}
 
-In this Explorative data analysis process， I choose to explore the
-relationships between income, life and year in general among countries.
-
-After wrangling the two datasets: life expectancy and income per person,
-I aggregated them into one dataset with tidy form, and drew some plots.
+\begin{itemize}
+\item
+  In this Explorative data analysis process， I choose to explore the
+  relationships between income, life and year in general among
+  countries.
+\item
+  After wrangling the two datasets: life expectancy and income per
+  person, I aggregated them into one dataset with tidy form, and drew
+  some plots.
+\end{itemize}
 
 First I source the data wrangling and visualization file so I have all
 the datasets and visualization tools available.
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 1629 rows containing non-finite values (stat_smooth).
+\end{verbatim}
+
+\includegraphics{Presentation_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 1629 rows containing non-finite values (stat_smooth).
+\end{verbatim}
+
+\includegraphics{Presentation_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\includegraphics{Presentation_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+Based on the visualization, we can see that there seems to be a positive
+relationship between year and income, year and life, as well as life and
+income. It seems like as year goes by, the income and life expectancy
+are growing in the countries. In addition, hiher income population seem
+to have higher life expectancy.
 
 \end{document}
