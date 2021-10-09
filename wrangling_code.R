@@ -6,6 +6,7 @@ library(tidyverse)
 library(dplyr)
 
 # read in the data.
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Also turn the data into tibbles right after reading them.
 income_raw <- as_tibble(read.csv("https://raw.githubusercontent.com/MA-615-Handing-Zhang/615-homework-2/main/income.csv"))
 str(income_raw)          
@@ -20,8 +21,11 @@ head(income_raw)
 head(life_raw)
 
 
-# The idea is that we want to clean the data and turn them into "tidy" form.
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+# The idea is that we want to clean the data and turn them into "tidy" form.
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # I want to turn income value: 12.3k(characters) into 12300(numeric)
 # First I trun every column except the first column "country" into character columns so I can pivot them without causing concliction.
 # I name the output income_cha, standing for income dataset with character columns.
@@ -59,49 +63,41 @@ life_tidy <- life_raw %>%
                names_to  = "year", 
                values_to = "life", 
                names_prefix = "X")
+life_tidy$year <- as.numeric(life_tidy$year)
 
 
 
-life$year <- as.numeric(life$year) 
+life_tidy2 <- filter(life_tidy, year <= 2049)
+# Now we subset the life expectancy dataset such that the year is from 1799 to 2049, matching the
+# year scope of our income dataset.
+
+# Now we join the two tidy datasets, keeping every row of each datasets by using inner_join
+life_vs_income <- left_join(income_tidy, life_tidy2, by = "country")
+
+
+# Since the key "country" is duplicated in both datasets we get all possible combinations.
+# We only want to keep the ones where the year matches.
+life_vs_income2 <- life_vs_income %>% 
+  filter(year.x == year.y)
+
+life_vs_income_tidy <- life_vs_income2[,-4]
+life_vs_income_tidy <- rename(life_vs_income_tidy, year = year.x) # rename a column to make it look clean.
+
+head(life_vs_income_tidy)
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# We hereby have a aggregated dataset of income and life expectancy in tidy form.
 
 
 
 
-income <- income %>% 
-  pivot_longer()
-
-
-
-## length(intersect(income[,1], life[,1] )) check if the countries match
-
-
-
-
-# Let's try to turn the columns with "k" in it (and thereby character columns) into double columns.
-# The question is how do I do this for all such charater columns? (better without a loop)
-income$X1900 <- as.numeric(sub("k", "e3", income$X1900, fixed = T))
-income$X1902 <- as.numeric(sub("k", "e3", income$X1902, fixed = T))
-
-
-income %>% 
-  select(contains("k"))
   
   
   
   
-  
-  
-
-as.numeric(sub("k", "e3", c("1.2k", 4), fixed = T))
-
-
-# map in tidyverse
-# purrr 
 
 
 
 
-c1 <- c(1,"2")
 
 
 
