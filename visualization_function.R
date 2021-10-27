@@ -6,6 +6,7 @@ library(ggplot2)
 # I make a function using ggplot to reflect the relationship between income, life expectancy and years.
 vis_function <- function(tidy_data, xcol, ycol){
   ggplot(data = tidy_data, aes(x = {{xcol}}, y = {{ycol}})) +
+    geom_point(size=0.01)+
   geom_smooth(se = F)
 }
 
